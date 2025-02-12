@@ -15,9 +15,9 @@ export default function RedirectPage() {
             const docSnap = await getDoc(docRef);
 
             if (docSnap.exists()) {
-                window.location.href = docSnap.data().originalUrl; // Redirects user
+                window.location.href = docSnap.data().originalUrl; // Redirect to original URL
             } else {
-                router.push("/404"); // Redirect to 404 if not found
+                router.replace("/404"); // Redirect to 404 if URL not found
             }
         };
 
