@@ -1,7 +1,7 @@
-import { db } from "../lib/firebase";
-import { doc, getDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { db } from "../lib/firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 export default function RedirectPage() {
     const router = useRouter();
@@ -15,9 +15,9 @@ export default function RedirectPage() {
             const docSnap = await getDoc(docRef);
 
             if (docSnap.exists()) {
-                window.location.href = docSnap.data().originalUrl;
+                window.location.href = docSnap.data().originalUrl; // Redirects user
             } else {
-                router.replace("/");
+                router.push("/404"); // Redirect to 404 if not found
             }
         };
 
