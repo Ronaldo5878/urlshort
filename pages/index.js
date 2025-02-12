@@ -1,6 +1,8 @@
 "use client";
 import { useState } from "react";
 
+<head><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2188814733147919"
+     crossorigin="anonymous"></script></head>
 export default function Home() {
     const [url, setUrl] = useState("");
     const [shortUrl, setShortUrl] = useState("");
