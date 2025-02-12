@@ -1,5 +1,5 @@
 import { db } from "../../lib/firebase";
-import { collection, doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { collection, doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore";
 import { nanoid } from "nanoid";
 
 export default async function handler(req, res) {
@@ -10,26 +10,23 @@ export default async function handler(req, res) {
     try {
         const { url } = req.body;
 
-        // ✅ Validate URL
         if (!url || typeof url !== "string") {
             return res.status(400).json({ error: "Invalid URL format" });
         }
 
-        // ✅ Generate shortId
         const shortId = nanoid(6);
         const shortUrlRef = doc(collection(db, "shortenurls"), shortId);
 
-        // ✅ Store in Firestore
         await setDoc(shortUrlRef, {
             originalUrl: url,
             shortId,
             createdAt: serverTimestamp(),
         });
 
-        console.log("Short URL created:", shortId);
+        // ✅ Dynamically get the domain (works on Vercel & local)
+        const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
-        // ✅ Return shortened URL
-        res.status(201).json({ shortUrl: `http://localhost:3000/${shortId}` });
+        res.status(201).json({ shortUrl: `${baseUrl}/${shortId}` });
     } catch (error) {
         console.error("Error processing request:", error);
         res.status(500).json({ error: "Internal Server Error" });
